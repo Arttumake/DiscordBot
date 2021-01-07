@@ -1,18 +1,28 @@
 import discord
 import os
 import requests
+import asyncio
+from websocket import create_connection
+import time
+import json
 from dotenv import load_dotenv
 
-client = discord.Client()
+#client = discord.Client()
 load_dotenv()
+cobalt_alert = {
+	"service":"event",
+	"action":"subscribe",
+	"worlds":["13"],
+	"eventNames":["FacilityControl",
+	"MetagameEvent"]
+}
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    if message.content.startswith('alert'):
-        await message.channel.send("This is an alert")
+ws = create_connection("wss://push.planetside2.com/streaming?environment=ps2&service-id=s:alerts")
 
-client.run(TOKEN)
-print("Done")        
+ws.send('{"service":"event","action":"subscribe","worlds":["1"],"eventNames":["PlayerLogin","PlayerLogout"]}')
+
+while True:
+    msg = ws.recv()
+    print(msg)
