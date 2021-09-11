@@ -19,7 +19,7 @@ webhook = Webhook.partial(WEBHOOK_ID, WEBHOOK_TOKEN, adapter=RequestsWebhookAdap
 
 def ws_message(ws, message):
 	to_dict = json.loads(message)
-	if "started" in to_dict.values():
+	if "payload" in to_dict.keys() and "ended" not in to_dict["payload"].values():
 		webhook.send("Alert", username='AlertsApp')
 		print("================================")
 		print("-------------ALERT--------------")
