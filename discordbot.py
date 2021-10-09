@@ -45,20 +45,19 @@ def on_open(ws):
     print("Opening...")
     ws.send(alerts_cobalt)  # subscribe to event stream
 
-
 def on_error(ws, error):
     print(error)
 
-
-if __name__ == "__main__":
-    # _thread.start_new_thread(websocket_thread, ())
+def websocket_thread():
     websocket.enableTrace(True)
     ws = websocket.WebSocketApp(
         "wss://push.planetside2.com/streaming?environment=ps2&service-id=s:cobaltalerts",
         on_open=on_open,
         on_message=on_message,
-        on_error=on_error,
-    )
+        on_error=on_error)
     ws.run_forever()
+
+if __name__ == "__main__":
+    _thread.start_new_thread(websocket_thread, ())
     print("discorbot.py is now running")
     bot.run(TOKEN)
