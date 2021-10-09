@@ -5,6 +5,7 @@ import requests
 from discord import Webhook, RequestsWebhookAdapter
 from discord.ext import commands
 import websocket
+import time
 
 TOKEN = os.getenv("DISCORD_TOKEN")  # required to start discord bot
 WEBHOOK_ID = os.getenv("PS2_WEBHOOKID")
@@ -31,7 +32,7 @@ def on_message(ws, message):
         print(f"Alert ended on {continent}")
         return
     elif sub_dict["metagame_event_state_name"] == "started":
-        webhook.send(f"{continent} alert started", username="AlertsApp")
+        webhook.send(f"{continent} alert started", username="alertsApp")
         print("================================")
         print("-------------ALERT--------------")
         print("================================")
@@ -45,16 +46,19 @@ def on_open(ws):
     ws.send(alerts_cobalt)  # subscribe to event stream
 
 
-def websocket_thread():
-    ws = websocket.WebSocketApp(
-        "wss://push.planetside2.com/streaming?environment=ps2&service-id=s:alerts",
-        on_open=on_open,
-        on_message=on_message,
-    )
-    ws.run_forever()
+def on_error(ws, error):
+    print(error)
 
 
 if __name__ == "__main__":
-    _thread.start_new_thread(websocket_thread, ())
+    # _thread.start_new_thread(websocket_thread, ())
+    websocket.enableTrace(True)
+    ws = websocket.WebSocketApp(
+        "wss://push.planetside2.com/streaming?environment=ps2&service-id=s:cobaltalerts",
+        on_open=on_open,
+        on_message=on_message,
+        on_error=on_error,
+    )
+    ws.run_forever()
     print("discorbot.py is now running")
     bot.run(TOKEN)
