@@ -6,5 +6,5 @@ ENV WEBHOOK_TOKEN=aYNSljTpPsOkmF3PDm4Jji4-EqndMfV6WtY3kU8DkwJEi2CvpONS2mdC8oK8HI
 ENV PS2_SERVICE_ID=cobaltalert
 RUN requirements.txt requirements.txt
 RUN pip install -r requirements.txt
-CMD [ "python3"]
 COPY . .
+CMD [ "python3", "discordbot.py"]
