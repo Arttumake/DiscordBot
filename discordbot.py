@@ -4,11 +4,15 @@ import json
 from discord import Webhook, RequestsWebhookAdapter
 from discord.ext import commands
 import websocket
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 TOKEN = os.getenv("DISCORD_TOKEN")  # required to start discord bot
 WEBHOOK_ID = os.getenv("PS2_WEBHOOKID")
 WEBHOOK_TOKEN = os.getenv("PS2_WEBHOOK_TOKEN")
 PS2_SERVICE_ID = os.getenv("PS2_SERVICE_ID")
+
 
 channel = 795640167229554732
 alerts_cobalt = '{"service":"event","action":"subscribe","worlds":["13"],"eventNames":["MetagameEvent"]}'
@@ -20,9 +24,10 @@ webhook = Webhook.partial(WEBHOOK_ID, WEBHOOK_TOKEN, adapter=RequestsWebhookAdap
 # websocket callback
 def on_message(ws, message):
     payload_dict = json.loads(message)
+    """
     if "payload" not in payload_dict.keys() or "heartbeat" in payload_dict.values():
         return
-
+    """
     sub_dict = payload_dict["payload"]
     id = int(sub_dict["zone_id"])
     continent = continent_ids[id]
