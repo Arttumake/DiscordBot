@@ -24,10 +24,10 @@ webhook = Webhook.partial(WEBHOOK_ID, WEBHOOK_TOKEN, adapter=RequestsWebhookAdap
 # websocket callback
 def on_message(ws, message):
     payload_dict = json.loads(message)
-    """
+
     if "payload" not in payload_dict.keys() or "heartbeat" in payload_dict.values():
         return
-    """
+
     sub_dict = payload_dict["payload"]
     id = int(sub_dict["zone_id"])
     continent = continent_ids[id]
