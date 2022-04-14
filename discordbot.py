@@ -16,7 +16,7 @@ PS2_SERVICE_ID = os.getenv("PS2_SERVICE_ID")
 
 channel = 795640167229554732
 alerts_cobalt = '{"service":"event","action":"subscribe","worlds":["13"],"eventNames":["MetagameEvent"]}'
-continent_ids = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 10: "Oshur"}
+continent_ids = {2: "Indar", 4: "Hossin", 6: "Amerish", 8: "Esamir", 344: "Oshur"}
 
 bot = commands.Bot(command_prefix="!")
 webhook = Webhook.partial(WEBHOOK_ID, WEBHOOK_TOKEN, adapter=RequestsWebhookAdapter())
