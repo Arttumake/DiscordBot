@@ -4,9 +4,6 @@ import json
 from discord import Webhook, RequestsWebhookAdapter
 from discord.ext import commands
 import websocket
-import ssl
-
-ssl._create_default_https_context = ssl._create_unverified_context
 
 TOKEN = os.getenv("DISCORD_TOKEN")  # required to start discord bot
 WEBHOOK_ID = os.getenv("PS2_WEBHOOKID")
